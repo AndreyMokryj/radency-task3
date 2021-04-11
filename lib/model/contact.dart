@@ -6,8 +6,9 @@ class Contact {
   String company;
   String image;
   bool favourite;
+  String bio;
 
-  Contact({this.name, this.company, this.image, this.favourite = false});
+  Contact({this.name, this.company, this.image, this.favourite = false, this.bio});
 
   String getLastName(){
     String name1 = name.trim();
@@ -23,5 +24,15 @@ class Contact {
   String getInitials(){
     String lastName = getLastName();
     return name.trim()[0] + (lastName != name.trim() ? lastName[0] : "");
+  }
+
+  void copyFrom(Contact another){
+    name = another.name;
+    company = another.company;
+    bio = another.bio;
+
+    // Currently not used
+    favourite = another.favourite;
+    image = another.image;
   }
 }

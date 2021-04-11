@@ -39,13 +39,18 @@ class _ContactWidgetState extends State<ContactWidget> {
             });
           },
         ),
-        CircleAvatar(
-          radius: 25,
-          foregroundImage: (user.image ?? "").isNotEmpty ? AssetImage(user.image) : null,
-          child: Text(
-            user.getInitials(),
-            style: initialsStyle,
+        GestureDetector(
+          child: CircleAvatar(
+            radius: 25,
+            foregroundImage: (user.image ?? "").isNotEmpty ? AssetImage(user.image) : null,
+            child: Text(
+              user.getInitials(),
+              style: initialsStyle,
+            ),
           ),
+          onTap: (){
+            Navigator.of(context).pushNamed("/edit", arguments: user);
+          },
         ),
         SizedBox(
           width: 15,

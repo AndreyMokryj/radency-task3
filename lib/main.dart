@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radency_task3/contact_widget.dart';
+import 'package:radency_task3/edit_contact.dart';
 import 'package:radency_task3/model/contact.dart';
 import 'package:radency_task3/styles.dart';
 
@@ -16,7 +17,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Contacts'),
+      // home: MyHomePage(title: 'Contacts'),
+      initialRoute: "/",
+      routes: {
+        '/': (context) => MyHomePage(title: 'Contacts',),
+        '/edit': (context) => EditContactPage(
+          user: ModalRoute.of(context).settings.arguments,
+        ),
+      },
     );
   }
 }
