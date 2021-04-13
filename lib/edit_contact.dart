@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:radency_task3/contacts_notifier.dart';
 import 'package:radency_task3/model/contact.dart';
@@ -69,7 +70,8 @@ class _EditContactPageState extends State<EditContactPage> {
                       children: [
                         Text(
                           "Name",
-                          style: companyStyle,
+                          // style: companyStyle,
+                          style: formLabelStyle,
                         ),
                         Text(
                           "*",
@@ -82,6 +84,7 @@ class _EditContactPageState extends State<EditContactPage> {
                   ),
                   TextFormField(
                     initialValue: contact.name,
+                    style: formTextStyle,
                     maxLength: 70,
                     decoration: AppDecoration(),
                     onSaved: (val) => contact.name = val,
@@ -94,7 +97,7 @@ class _EditContactPageState extends State<EditContactPage> {
                       children: [
                         Text(
                           "Phone Number",
-                          style: companyStyle,
+                          style: formLabelStyle,
                         ),
                         Text(
                           "*",
@@ -107,19 +110,23 @@ class _EditContactPageState extends State<EditContactPage> {
                   ),
                   TextFormField(
                     initialValue: contact.phone,
+                    keyboardType: TextInputType.phone,
+                    style: formTextStyle,
                     decoration: AppDecoration(),
                     onSaved: (val) => contact.phone = val,
                     validator: (val) => (val.length == 13 && val.startsWith("+380")) || (val ?? "").length == 0 ? null : "Invalid phone number",
+                    buildCounter: (context, {int currentLength, bool isFocused, int maxLength}) => Text("") as Widget,
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
                     "Company Name",
-                    style: companyStyle,
+                    style: formLabelStyle,
                   ),
                   TextFormField(
                     initialValue: contact.company,
+                    style: formTextStyle,
                     decoration: AppDecoration(),
                     onSaved: (val) => contact.company = val,
                     maxLength: 70,
@@ -129,12 +136,13 @@ class _EditContactPageState extends State<EditContactPage> {
                   ),
                   Text(
                     "Bio",
-                    style: companyStyle,
+                    style: formLabelStyle,
                   ),
                   TextFormField(
                     minLines: 3,
                     maxLines: 3,
                     initialValue: contact.bio,
+                    style: formTextStyle,
                     decoration: AppDecoration(),
                     onSaved: (val) => contact.bio = val,
                     maxLength: 110,
