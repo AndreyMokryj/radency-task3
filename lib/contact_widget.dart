@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:radency_task3/main.dart';
+import 'package:provider/provider.dart';
+import 'package:radency_task3/contacts_notifier.dart';
 import 'package:radency_task3/model/contact.dart';
 import 'package:radency_task3/styles.dart';
 
-class ContactWidget extends StatefulWidget{
-  final Contact user;
+class ContactWidget extends StatelessWidget{
+  final Contact contact;
 
-  const ContactWidget({Key key, this.user}) : super(key: key);
-
-  @override
-  _ContactWidgetState createState() => _ContactWidgetState();
-}
-
-class _ContactWidgetState extends State<ContactWidget> {
-  Contact user;
-
-  @override
-  void initState() {
-    user = widget.user;
-  }
+  const ContactWidget({Key key, this.contact}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +19,24 @@ class _ContactWidgetState extends State<ContactWidget> {
             padding: EdgeInsets.all(10),
             child: Icon(
               Icons.star,
-              color: user.favourite ? Colors.cyan : Colors.transparent,
+              color: contact.favourite ? Colors.cyan : Colors.transparent,
             ),
           ),
           onTap: (){
-            setState(() {
-              contacts.firstWhere((element) => user.id == element.id).favourite = !(user.favourite);
-            });
+            Provider.of<ContactsNotifier>(context, listen: false).swithcFavourite(contact.id);
           },
         ),
         GestureDetector(
           child: CircleAvatar(
             radius: 25,
-            foregroundImage: (user.image ?? "").isNotEmpty ? AssetImage(user.image) : null,
+            foregroundImage: (contact.image ?? "").isNotEmpty ? AssetImage(contact.image) : null,
             child: Text(
-              user.getInitials(),
+              contact.getInitials(),
               style: initialsStyle,
             ),
           ),
           onTap: (){
-            Navigator.of(context).pushNamed("/edit", arguments: user);
+            Navigator.of(context).pushNamed("/edit", arguments: contact);
           },
         ),
         SizedBox(
@@ -59,13 +46,13 @@ class _ContactWidgetState extends State<ContactWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              user.name,
+              contact.name,
               style: nameStyle,
             ),
             SizedBox(
               height: 5,
             ),
-            Text(user.company),
+            Text(contact.company),
           ],
         )
       ],

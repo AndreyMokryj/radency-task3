@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:radency_task3/main.dart';
+import 'package:provider/provider.dart';
+import 'package:radency_task3/contacts_notifier.dart';
 import 'package:radency_task3/model/contact.dart';
 import 'package:radency_task3/styles.dart';
 
 class EditContactPage extends StatefulWidget{
-  final Contact user;
+  final Contact contact;
 
-  const EditContactPage({Key key, this.user}) : super(key: key);
+  const EditContactPage({Key key, this.contact}) : super(key: key);
 
   @override
   _EditContactPageState createState() => _EditContactPageState();
@@ -16,11 +17,11 @@ class EditContactPage extends StatefulWidget{
 class _EditContactPageState extends State<EditContactPage> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  Contact user;
+  Contact contact;
 
   @override
   void initState() {
-    user = widget.user;
+    contact = widget.contact;
   }
 
   @override
@@ -32,13 +33,6 @@ class _EditContactPageState extends State<EditContactPage> {
             "Save",
             style: buttonTextStyle,
           ),
-          // onPressed: (){
-          //   setState(() {
-          //     contacts.firstWhere((element) => user.id == element.id).copyFrom(user);
-          //   });
-          //   Navigator.of(context).pop();
-          // },
-
           onPressed: _submit,
         )],
       ),
@@ -55,9 +49,9 @@ class _EditContactPageState extends State<EditContactPage> {
             Align(
               child: CircleAvatar(
                 radius: 60,
-                foregroundImage: (user.image ?? "").isNotEmpty ? AssetImage(user.image) : null,
+                foregroundImage: (contact.image ?? "").isNotEmpty ? AssetImage(contact.image) : null,
                 child: Text(
-                  user.getInitials(),
+                  contact.getInitials(),
                   style: initialsStyle,
                 ),
               ),
@@ -86,9 +80,9 @@ class _EditContactPageState extends State<EditContactPage> {
                     ),
                   ),
                   TextFormField(
-                    initialValue: user.name,
+                    initialValue: contact.name,
                     decoration: AppDecoration(),
-                    onSaved: (val) => user.name = val,
+                    onSaved: (val) => contact.name = val,
                   ),
                 ],
               ),
@@ -103,9 +97,7 @@ class _EditContactPageState extends State<EditContactPage> {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      setState(() {
-        contacts.firstWhere((element) => user.id == element.id).copyFrom(user);
-      });
+      Provider.of<ContactsNotifier>(context, listen: false).updateContact(contact);
       Navigator.of(context).pop();
     }
     else {

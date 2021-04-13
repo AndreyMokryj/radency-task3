@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:radency_task3/contact_widget.dart';
+import 'package:radency_task3/contacts_notifier.dart';
 import 'package:radency_task3/edit_contact.dart';
 import 'package:radency_task3/model/contact.dart';
 import 'package:radency_task3/styles.dart';
@@ -12,19 +14,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Contacts',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // home: MyHomePage(title: 'Contacts'),
-      initialRoute: "/",
-      routes: {
-        '/': (context) => MyHomePage(title: 'Contacts',),
-        '/edit': (context) => EditContactPage(
-          user: ModalRoute.of(context).settings.arguments,
+    return ChangeNotifierProvider.value(
+      value: globalContactsNotifier,
+      child: MaterialApp(
+        title: 'Contacts',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      },
+        initialRoute: "/",
+        routes: {
+          '/': (context) => MyHomePage(title: 'Contacts',),
+          '/edit': (context) => EditContactPage(
+            contact: ModalRoute.of(context).settings.arguments,
+          ),
+        },
+      ),
     );
   }
 }
@@ -36,6 +40,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Contact> contacts = context.watch<ContactsNotifier>().contacts;
     contacts.sort((el1, el2) => el1.getLastName().compareTo(el2.getLastName()));
     Map<String, List> contactsMap = <String, List>{};
     contacts.forEach((element) {
@@ -74,7 +79,7 @@ class MyHomePage extends StatelessWidget {
                 bottom: 10
               ),
               child: ContactWidget(
-                  user: element,
+                  contact: element,
                 ),
             )).toList(),
           )).toList()
@@ -85,7 +90,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-List contacts = [
+final contacts = [
   Contact(
     name: "John Agnew",
     company : "Stanford Univercity",
@@ -135,3 +140,5 @@ List contacts = [
     image: "assets/images/person9.png",
   ),
 ];
+
+final globalContactsNotifier = ContactsNotifier(contacts: contacts);
