@@ -7,8 +7,9 @@ class Contact {
   String image;
   bool favourite;
   String bio;
+  String phone;
 
-  Contact({this.name, this.company, this.image, this.favourite = false, this.bio});
+  Contact({this.name, this.company, this.image, this.favourite = false, this.bio, this.phone});
 
   String getLastName(){
     String name1 = name.trim();
@@ -30,6 +31,7 @@ class Contact {
     name = another.name;
     company = another.company;
     bio = another.bio;
+    phone = another.phone;
 
     // Currently not used
     favourite = another.favourite;

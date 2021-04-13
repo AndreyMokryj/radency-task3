@@ -62,6 +62,7 @@ class _EditContactPageState extends State<EditContactPage> {
             Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
                     child: Row(
@@ -81,9 +82,67 @@ class _EditContactPageState extends State<EditContactPage> {
                   ),
                   TextFormField(
                     initialValue: contact.name,
+                    maxLength: 70,
                     decoration: AppDecoration(),
                     onSaved: (val) => contact.name = val,
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        Text(
+                          "Phone Number",
+                          style: companyStyle,
+                        ),
+                        Text(
+                          "*",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextFormField(
+                    initialValue: contact.phone,
+                    decoration: AppDecoration(),
+                    onSaved: (val) => contact.phone = val,
+                    validator: (val) => (val.length == 13 && val.startsWith("+380")) || (val ?? "").length == 0 ? null : "Invalid phone number",
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Company Name",
+                    style: companyStyle,
+                  ),
+                  TextFormField(
+                    initialValue: contact.company,
+                    decoration: AppDecoration(),
+                    onSaved: (val) => contact.company = val,
+                    maxLength: 70,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Bio",
+                    style: companyStyle,
+                  ),
+                  TextFormField(
+                    minLines: 3,
+                    maxLines: 3,
+                    initialValue: contact.bio,
+                    decoration: AppDecoration(),
+                    onSaved: (val) => contact.bio = val,
+                    maxLength: 110,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SafeArea(child: Container())
                 ],
               ),
             ),
