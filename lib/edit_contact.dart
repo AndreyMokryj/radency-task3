@@ -115,7 +115,7 @@ class _EditContactPageState extends State<EditContactPage> {
                     decoration: AppDecoration(),
                     onSaved: (val) => contact.phone = val,
                     validator: (val) => (val.length == 13 && val.startsWith("+380")) || (val ?? "").length == 0 ? null : "Invalid phone number",
-                    buildCounter: (context, {int currentLength, bool isFocused, int maxLength}) => Text("") as Widget,
+                    buildCounter: (context, {int currentLength, bool isFocused, int maxLength}) => Text("+38 xxx xxx xx xx") as Widget,
                   ),
                   SizedBox(
                     height: 10,
